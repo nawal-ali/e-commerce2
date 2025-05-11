@@ -10,7 +10,7 @@ import { ProductService } from '../../shared/services/product.service';
 export class TvComponent {
         tv:any;
         constructor(public productService:ProductService){
-          this.productService.getMonitorCategory().subscribe(res=>{
+          this.productService.getTvCategory().subscribe(res=>{
             this.tv = res.data;
           })
         }
