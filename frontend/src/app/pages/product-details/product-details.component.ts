@@ -14,15 +14,26 @@ export class ProductDetailsComponent {
   single:any[] = [];
   priceAfterDiscount:number = 0;
   rate :any[] = [];
+  product: any;
   // clientRate :any[] = [];
   // clientRate2 :any[] = [];
   // reviews :any[]=[];
   ngOnInit(){
-    const id = this.activated.snapshot.paramMap.get('_id');
+    const id =  this.activated.snapshot.paramMap.get('_id');
+    if(id){
+      this.productService.getSingleProduct(id).subscribe(res => {
+        this.product = res.data;
+        console.log('Product:', this.product);
+        //reting array
+        this.rate = Array(Math.floor(this.product.rating)).fill(0);
+        //price after discount
+        this.priceAfterDiscount = Math.floor(this.product.price -((this.product.discount/100)*this.product.price));
+          console.log(this.priceAfterDiscount);
+      });
+    }
     console.log("this is id from single "+ id);
-    this.productService.getSingleProduct(id).subscribe(res => {
-      this.rate = Array(Math.floor(res.rating)).fill(0);
-      console.log('this is rating' + this.rate);
+    // this.productService.getSingleProduct(id).subscribe(res => {
+      // console.log('this is rating' + this.rate);
       // this.reviews = res.reviews;
       // this.reviews.map(i =>{
       //   this.clientRate = Array(i.rating).fill(0);
@@ -33,13 +44,9 @@ export class ProductDetailsComponent {
       // this.single.push(res);
       // console.log('this is res from single' + this.single);
       // console.log(typeof(res));
-      this.single.map((item:any) => {
-        this.priceAfterDiscount = Math.floor(item.price -((item.discount/100)*item.price));
-        console.log(this.priceAfterDiscount);
-      })
       
       // console.log(res);
-    })
+    // })
   }
 
 }
