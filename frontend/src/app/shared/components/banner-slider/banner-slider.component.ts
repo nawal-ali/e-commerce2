@@ -17,22 +17,16 @@ export class BannerSliderComponent {
   @Input() monthSales:boolean = false;
   @Input() category:boolean = false;
   @Input() slides: any[] = [];
-  priceAfterDiscount:{[key:number]: number}={};
   products:any[] = [];
   x!:number;
   constructor(private product:ProductService){
     this.product.getProducts().subscribe(res=>{
       console.log("this is res from banner slider"+res);
       this.products = res.data;
-      this.products.map(item =>{
-        if(item.discount>0){
-        this.x = item.price - ((item.discount / 100) * item.price);
-        this.priceAfterDiscount[item.product_id] = Math.floor(this.x);
-      }
-      })
-      console.log("this is price"+this.priceAfterDiscount);
     })
   }
+
+  //slider config for category slider
   slideConfig = {
     "slidesToShow": 4,
     "slidesToScroll": 1,
@@ -66,8 +60,7 @@ export class BannerSliderComponent {
     ]
   };
 
-
-
+  //slider config for dailay and month sales slider
   slideConfig2 = {
     slidesToShow: 2,
   slidesToScroll: 1,
