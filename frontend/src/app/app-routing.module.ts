@@ -27,6 +27,7 @@ const routes: Routes = [
   {path:"gaming",component:GamingComponent},
   {path:"bluetoothSpeaker",component:BluetoothSpeakerComponent},
   {path:"accessories",component:AccessoriesComponent},
+  { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) },
 ]
 
 @NgModule({

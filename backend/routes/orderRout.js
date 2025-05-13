@@ -3,7 +3,7 @@ const router = express.Router();
 const Order = require('../models/orderM');
 
 // Create new order
-router.post('/', async (req, res) => {
+router.post('/addOrder', async (req, res) => {
     const { userId, items, totalAmount } = req.body;
     try {
         const order = new Order({
