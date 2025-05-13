@@ -8,7 +8,7 @@ router.get('/all', async (req, res) => {
         const allProducts = await Products.find()
         res.json({ action: 'success', count: allProducts.length, data: allProducts })
     } catch (err) {
-        res.status(500).json({ message: err.message })
+        res.json({ message: err.message })
     }
 })
 
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
         const pro = await Products.find(search);
         res.json({ action: 'success', count: pro.length, data: pro });
     } catch (err) {
-        res.status(500).json({ message: 'Product not found', error: err.message });
+        res.json({ message: 'Product not found', error: err.message });
     }
 });
 
@@ -134,7 +134,7 @@ router.get('/:id', async (req, res) => {
     if (product) {
         res.json({ action: 'success', data: product })
     } else {
-        res.status(404).json({ message: 'Product not found' })
+        res.json({ message: 'Product not found' })
     }
     // if (!product) return res.status(404).json({ message: 'Product not found' })
 })
@@ -158,9 +158,9 @@ router.post('/add', async (req, res) => {
     })
     try {
         const newProduct = await product.save()
-        res.status(201).json(newProduct)
+        res.json(newProduct)
     } catch (err) {
-        res.status(400).json({ message: err.message })
+        res.json({ message: err.message })
     }
 })
 
@@ -170,7 +170,7 @@ router.patch('/:id', async (req, res) => {
         const product = await Products.findById(req.params.id); // ✅ use param and await
 
         if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
+            return res.json({ message: 'Product not found' });
         }
 
         // Update only fields that are provided
@@ -190,7 +190,7 @@ router.patch('/:id', async (req, res) => {
         res.json(updatedProduct);
 
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.json({ message: err.message });
     }
 });
 
@@ -199,7 +199,7 @@ router.patch('/:id', async (req, res) => {
 router.delete('/:id', (req, res) => {
     Products.findByIdAndDelete(req.params.id)
         .then(() => res.json({ message: 'Product deleted' }))
-        .catch(err => res.status(500).json({ message: err.message }))
+        .catch(err => res.json({ message: err.message }))
 
 })
 module.exports = router;

@@ -1,20 +1,28 @@
 const express = require('express');
 const router = express.Router();
 const { User, validateCreateUser } = require('../models/userM.js')
-// const bcrypt = require('bcryptjs')
 
-// const salt = await bcrypt.genSalt(10);
-// const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
+//get all users for dasboard
 router.get('/allusers', async (req, res) => {
     try {
         const allUsers = await User.find()
         res.json({ action: 'success', count: allUsers.length, data: allUsers })
     } catch (err) {
-        res.status(500).json({ message: err.message })
+        res.json({ message: err.message })
     }
 })
 
+//get single user
+router.get('/:id', async (req, res) => {
+    const product = await User.findById(req.params.id)
+    if (product) {
+        res.json({ action: 'success', data: product })
+    } else {
+        res.json({ message: 'Product not found' })
+    }
+})
+
+//login
 router.post('/', async (req, res) => {
     const { error } = validateCreateUser(req.body)
     if (error) {
@@ -32,9 +40,9 @@ router.post('/', async (req, res) => {
     })
     try {
         const newUser = await user.save()
-        res.status(201).json(newUser)
+        res.json(newUser)
     } catch (err) {
-        res.status(400).json({ message: err.message })
+        res.json({ message: err.message })
     }
 })
 module.exports = router;

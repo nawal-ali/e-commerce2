@@ -5,18 +5,16 @@ const Order = require('../models/orderM');
 // Create new order
 router.post('/', async (req, res) => {
     const { userId, items, totalAmount } = req.body;
-
     try {
         const order = new Order({
             user: userId,
             items,
             totalAmount
         });
-
         const savedOrder = await order.save();
-        res.status(201).json(savedOrder);
+        res.json(savedOrder);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        res.json({ message: err.message });
     }
 });
 
@@ -30,7 +28,7 @@ router.get('/:userId', async (req, res) => {
         res.json(orders)
             ;
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.json({ message: err.message });
     }
 });
 
